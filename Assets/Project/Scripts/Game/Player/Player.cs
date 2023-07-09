@@ -166,8 +166,6 @@ public class Player : MonoBehaviour {
 			bolt.EndObject.transform.position = intialPosition + (model.transform.forward * 5);
 
             StartCoroutine(Wait(lightning));
-
-
         }
 
 
