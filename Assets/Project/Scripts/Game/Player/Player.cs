@@ -204,11 +204,16 @@ public class Player : MonoBehaviour {
 		if (otherCollider.GetComponent<EnemyBullet> () != null) {
 			Hit ((transform.position - otherCollider.transform.position).normalized);
 			Destroy (otherCollider.gameObject);
-		} else if (otherCollider.GetComponent<Treasure> () != null) {
-			orbAmount++;
+		} else if (otherCollider.tag == "BombTreasure") {
+			bombAmount += 10;
 			Destroy (otherCollider.gameObject);
-		}
-	}
+        }
+        else if (otherCollider.tag == "ArrowTreasure")
+        {
+            arrows += 10;
+            Destroy(otherCollider.gameObject);
+        }
+    }
 
 	void OnTriggerStay (Collider otherCollider) {
 		if (otherCollider.GetComponent<Dungeon> () != null) {

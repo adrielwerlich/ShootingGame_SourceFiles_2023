@@ -3244,6 +3244,22 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: -4.13
       objectReference: {fileID: 0}
+    - target: {fileID: 2955551663006727431, guid: 44b12077db332a84b804a8c7a87f4e0d, type: 3}
+      propertyPath: arrows
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 2955551663006727431, guid: 44b12077db332a84b804a8c7a87f4e0d, type: 3}
+      propertyPath: health
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2955551663006727431, guid: 44b12077db332a84b804a8c7a87f4e0d, type: 3}
+      propertyPath: bombAmount
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 2955551663006727431, guid: 44b12077db332a84b804a8c7a87f4e0d, type: 3}
+      propertyPath: energyLevel
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 7874610821703564196, guid: 44b12077db332a84b804a8c7a87f4e0d, type: 3}
       propertyPath: inputManager
       value: 
