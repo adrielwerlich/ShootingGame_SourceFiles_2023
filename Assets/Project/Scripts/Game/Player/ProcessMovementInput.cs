@@ -216,8 +216,6 @@ public class ProcessMovementInput : MonoBehaviour
 
     void OnTriggerEnter(Collider otherCollider)
     {
-       
-
         if (otherCollider.GetComponent<EnemyBullet>() != null)
         {
             Hit((transform.position - otherCollider.transform.position).normalized);
