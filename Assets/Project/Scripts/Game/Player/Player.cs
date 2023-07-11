@@ -39,6 +39,8 @@ public class Player : MonoBehaviour {
 	private bool justTeleported;
 	private Dungeon currentDungeon;
 
+	private Health playerHealth;
+
 
 	public bool JustTeleported {
 		get {
@@ -69,6 +71,8 @@ public class Player : MonoBehaviour {
         InputManager.FireArrow += FireArrow;
         InputManager.FireBomb += ThrowBomb;
         InputManager.FireLightning += FireLightning;
+
+		playerHealth = GetComponent<Health>();
 
     }
 
@@ -213,6 +217,11 @@ public class Player : MonoBehaviour {
             arrows += 30;
             Destroy(otherCollider.gameObject);
         }
+        else if (otherCollider.tag == "HealingHeart")
+        {
+            playerHealth.HealthValue += 20;
+            Destroy(otherCollider.gameObject);
+        }
     }
 
 	void OnTriggerStay (Collider otherCollider) {
@@ -235,10 +244,7 @@ public class Player : MonoBehaviour {
 
 		if (collision.gameObject.GetComponent<Enemy> ()) {
 			Hit ((transform.position - collision.transform.position).normalized);
-		} else if (collision.transform.parent.tag == "Stairs")
-		{
-			//Physics.IgnoreCollision(collision.collider, gameObject.GetComponent<Collider>());
-		}
+		} 
 
 
 
@@ -250,6 +256,8 @@ public class Player : MonoBehaviour {
         {
             PlayerInArea.Invoke("OutsideKrishnaTemple");
         }
+
+
     }
 
 	private void Hit (Vector3 direction) {
