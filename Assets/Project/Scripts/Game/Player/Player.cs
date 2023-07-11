@@ -1,13 +1,13 @@
 ﻿using DigitalRuby.LightningBolt;
+using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour {
 
     public GameObject model;
+    // the string argument indicates what area of the map the player hit
+    public static event Action<string> PlayerInArea;
 
     [Header("Movement")]
 	[SerializeField] private float movingVelocity;
@@ -210,7 +210,7 @@ public class Player : MonoBehaviour {
         }
         else if (otherCollider.tag == "ArrowTreasure")
         {
-            arrows += 10;
+            arrows += 30;
             Destroy(otherCollider.gameObject);
         }
     }
@@ -231,10 +231,26 @@ public class Player : MonoBehaviour {
 	}
 
 	void OnCollisionEnter (Collision collision) {
+        //Debug.Log("player collision with " + collision.transform.parent.tag);
+
 		if (collision.gameObject.GetComponent<Enemy> ()) {
 			Hit ((transform.position - collision.transform.position).normalized);
+		} else if (collision.transform.parent.tag == "Stairs")
+		{
+			//Physics.IgnoreCollision(collision.collider, gameObject.GetComponent<Collider>());
 		}
-	}
+
+
+
+		if (collision.gameObject.name == "KrishnaTempleFLOOR")
+		{
+			PlayerInArea.Invoke("KrishnaTemple");
+		}
+        else if (collision.gameObject.name == "OutsideKrishnaTemple")
+        {
+            PlayerInArea.Invoke("OutsideKrishnaTemple");
+        }
+    }
 
 	private void Hit (Vector3 direction) {
 		Vector3 knockbackDirection = (direction + Vector3.up).normalized;
@@ -274,16 +290,4 @@ public class Player : MonoBehaviour {
 		}
     }
 
-	#region WebGL is on mobile check
-		//[DllImport("__Internal")]
-		//private static extern bool IsMobile();
-		//public bool CheckIfMobile()
-		//{
-		//	#if !UNITY_EDITOR && UNITY_WEBGL
-		//	return IsMobile();
-		//	#endif
-
-		//	return false;
-		//}
-    #endregion
 }

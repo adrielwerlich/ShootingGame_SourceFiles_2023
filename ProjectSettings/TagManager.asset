@@ -10,6 +10,7 @@ TagManager:
   - Floor
   - BombTreasure
   - ArrowTreasure
+  - Stairs
   layers:
   - Default
   - TransparentFX
