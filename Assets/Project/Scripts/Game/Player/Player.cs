@@ -222,6 +222,10 @@ public class Player : MonoBehaviour {
             playerHealth.HealthValue += 20;
             Destroy(otherCollider.gameObject);
         }
+		else if (otherCollider.gameObject.name == "OutsideKrishnaTemple")
+        {
+            PlayerInArea.Invoke("OutsideKrishnaTemple");
+        }
     }
 
 	void OnTriggerStay (Collider otherCollider) {
@@ -244,7 +248,7 @@ public class Player : MonoBehaviour {
 
 		if (collision.gameObject.GetComponent<Enemy> ()) {
 			Hit ((transform.position - collision.transform.position).normalized);
-		} 
+		}
 
 
 
@@ -252,13 +256,13 @@ public class Player : MonoBehaviour {
 		{
 			PlayerInArea.Invoke("KrishnaTemple");
 		}
-        else if (collision.gameObject.name == "OutsideKrishnaTemple")
-        {
-            PlayerInArea.Invoke("OutsideKrishnaTemple");
-        }
+		//      else if (collision.gameObject.name == "OutsideKrishnaTemple")
+		//      {
+		//          PlayerInArea.Invoke("OutsideKrishnaTemple");
+		//      }
 
 
-    }
+	}
 
 	private void Hit (Vector3 direction) {
 		Vector3 knockbackDirection = (direction + Vector3.up).normalized;

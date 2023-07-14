@@ -13,6 +13,8 @@ public class KrishnaFluteSongsManager : MonoBehaviour
     [SerializeField] private float _minVolume = 0.1f;
     [SerializeField] private float _maxVolume = 1f;
 
+    public static bool PlayerInTemple = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -26,12 +28,12 @@ public class KrishnaFluteSongsManager : MonoBehaviour
     {
         if (area == "KrishnaTemple")
         {
-            shouldPlay = true;
+            PlayerInTemple = shouldPlay = true;
             GetNextSong();
         } 
         else if (area == "OutsideKrishnaTemple")
         {
-            shouldPlay = false;
+            PlayerInTemple = shouldPlay = false;
             _audioSource.Stop();
         }
     }
@@ -43,14 +45,17 @@ public class KrishnaFluteSongsManager : MonoBehaviour
         if (player != null)
         {
             // Calculate the distance between the audio source and the target
-            float distance = Vector3.Distance(transform.position, player.transform.position);
+            float distance = Helper.GetDistanceBetweenTwoObjects(
+                transform.position, 
+                player.transform.position
+            );
 
             // Calculate the volume based on the distance
             float volume = Mathf.Lerp(_maxVolume, _minVolume, distance / _maxDistance);
 
             // Set the volume of the audio source
             _audioSource.volume = volume;
-            Debug.Log("_audioSource.volume => " + _audioSource.volume);
+            //Debug.Log("_audioSource.volume => " + _audioSource.volume);
         }
     }
 
