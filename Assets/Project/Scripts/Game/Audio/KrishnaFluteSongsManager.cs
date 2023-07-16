@@ -3,16 +3,18 @@ using UnityEngine;
 public class KrishnaFluteSongsManager : MonoBehaviour
 {
     [SerializeField] private Player player;
-    private AudioSource _audioSource;
     [SerializeField] private AudioClip[] songs;
-    public float volume = .5f;
-
-    private bool shouldPlay = false;
-
+    
     [SerializeField] private float _maxDistance = 60f;
     [SerializeField] private float _minVolume = 0.1f;
     [SerializeField] private float _maxVolume = 1f;
 
+    private AudioSource _audioSource;
+    private bool shouldPlay = false;
+
+
+
+    public float volume = .5f;
     public static bool PlayerInTemple = false;
 
     // Start is called before the first frame update
@@ -22,6 +24,14 @@ public class KrishnaFluteSongsManager : MonoBehaviour
         _audioSource.Stop();
 
         Player.PlayerInArea += IsTempleArea;
+        KrishnaInteractionManager.PlayMantra += PlayTheMantra;
+    }
+
+    private void PlayTheMantra(Helper.MantraIndex mantraIndex)
+    {
+        _audioSource.Stop();
+        _audioSource.clip = Helper.getMantras()[((int)mantraIndex)];
+        _audioSource.Play();
     }
 
     private void IsTempleArea(string area)
@@ -63,7 +73,7 @@ public class KrishnaFluteSongsManager : MonoBehaviour
     {
         if (!_audioSource.isPlaying && shouldPlay)
         {
-            _audioSource.volume = volume;
+            //_audioSource.volume = volume;
             ChangeSong(Random.Range(0, songs.Length));
         }
     }

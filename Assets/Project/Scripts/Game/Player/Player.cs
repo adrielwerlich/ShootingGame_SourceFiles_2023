@@ -38,8 +38,9 @@ public class Player : MonoBehaviour {
 	private float knockbackTimer;
 	private bool justTeleported;
 	private Dungeon currentDungeon;
+    private AudioSource _audioSource;
 
-	private Health playerHealth;
+    private Health playerHealth;
 
 
 	public bool JustTeleported {
@@ -55,9 +56,20 @@ public class Player : MonoBehaviour {
 			return currentDungeon;
 		}
 	}
+    private static bool hasWeaponsMantra = false;
+    private static bool hasHealingMantra = false;
 
-	// Use this for initialization
-	void Start () {
+    public static bool HasWeaponsMantra { 
+		get => hasWeaponsMantra; 
+		set => hasWeaponsMantra = value; 
+	}
+    public static bool HasHealingMantra { 
+		get => hasHealingMantra; 
+		set => hasHealingMantra = value; 
+	}
+
+    // Use this for initialization
+    void Start () {
 
 		bow.gameObject.SetActive (true);
 		quiver.gameObject.SetActive (true);
@@ -74,6 +86,19 @@ public class Player : MonoBehaviour {
 
 		playerHealth = GetComponent<Health>();
 
+        _audioSource = GetComponent<AudioSource>();
+        _audioSource.Stop();
+
+        ScrollInteractionManager.PlayMantra += PlayTheMantra;
+
+
+    }
+
+    private void PlayTheMantra(Helper.MantraIndex mantraIndex)
+    {
+        _audioSource.Stop();
+        _audioSource.clip = Helper.getMantras()[((int)mantraIndex)];
+        _audioSource.Play();
     }
 
     private void OnDisable()
@@ -256,11 +281,6 @@ public class Player : MonoBehaviour {
 		{
 			PlayerInArea.Invoke("KrishnaTemple");
 		}
-		//      else if (collision.gameObject.name == "OutsideKrishnaTemple")
-		//      {
-		//          PlayerInArea.Invoke("OutsideKrishnaTemple");
-		//      }
-
 
 	}
 

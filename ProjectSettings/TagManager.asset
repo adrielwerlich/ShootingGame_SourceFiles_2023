@@ -12,6 +12,8 @@ TagManager:
   - ArrowTreasure
   - Stairs
   - HealingHeart
+  - WeaponsPackage
+  - HealingPackage
   layers:
   - Default
   - TransparentFX
