@@ -1913,7 +1913,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7bcbe3e819ea4752911ce0171a46c2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 1
+  health: 5
+  hidden: 0
+  ActivateDisabledEnemy:
+    m_PersistentCalls:
+      m_Calls: []
   agent: {fileID: 195887312415717840}
   enemyAnimator: {fileID: 95541155585559104}
   attackRadius: 5

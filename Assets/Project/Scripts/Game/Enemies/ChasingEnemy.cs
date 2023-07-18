@@ -55,10 +55,9 @@ public class ChasingEnemy : Enemy {
 
 		// Animate the chasing enemy.
 		if (agent.velocity.magnitude > 0) {
-			enemyAnimator.SetFloat ("Forward", 0.6f);
-		}
-
-		if (Vector3.Distance (transform.position, previousPosition) < 0.03f) {
+			enemyAnimator.SetFloat ("Forward", .6f);
+		} 
+		else if (Vector3.Distance (transform.position, previousPosition) < 0.03f) {
 			enemyAnimator.SetFloat ("Forward", 0.0f);
 		}
 

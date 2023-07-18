@@ -106,6 +106,7 @@ public class Player : MonoBehaviour {
         InputManager.FireArrow -= FireArrow;
         InputManager.FireBomb -= ThrowBomb;
         InputManager.FireLightning -= FireLightning;
+        ScrollInteractionManager.PlayMantra -= PlayTheMantra;
 
     }
 
@@ -289,8 +290,8 @@ public class Player : MonoBehaviour {
 		playerRigidbody.AddForce (knockbackDirection * knockbackForce);
 		knockbackTimer = 1f;
 
-		health--;
-		if (health <= 0) {
+		playerHealth.HealthValue--;
+		if (playerHealth.HealthValue <= 0) {
 			Destroy (gameObject);
 		}
 	}

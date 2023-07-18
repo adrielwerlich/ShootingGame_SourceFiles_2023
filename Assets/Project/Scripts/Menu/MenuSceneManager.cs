@@ -14,4 +14,9 @@ public class MenuSceneManager : MonoBehaviour {
     public void OnStart () {
 		SceneManager.LoadScene ("Level1");
 	}
+
+    public void StartKrishnaGame()
+    {
+        SceneManager.LoadScene("KrishnaGamePrototype");
+    }
 }

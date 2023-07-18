@@ -9,6 +9,7 @@ public class ScrollInteractionManager : MonoBehaviour
     [SerializeField] private GameObject interactionPanel;
     
     public static event Action<Helper.MantraIndex> PlayMantra;
+    public static event Action HideDirectionArrow;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -36,20 +37,32 @@ public class ScrollInteractionManager : MonoBehaviour
 
     async void OnTriggerStay()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1) && !Player.HasWeaponsMantra) { 
+        if (Input.GetKey(KeyCode.Alpha1) && !Player.HasWeaponsMantra) { 
             PlayMantra.Invoke(Helper.MantraIndex.WeaponMantra);
-            await Task.Delay(3000);
             Player.HasWeaponsMantra = true;
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha2) && !Player.HasHealingMantra) {
-            PlayMantra.Invoke(Helper.MantraIndex.HealingMantra);
             await Task.Delay(3000);
-            Player.HasHealingMantra = true;
         }
+        else if (Input.GetKey(KeyCode.Alpha2) && !Player.HasHealingMantra) {
+            PlayMantra.Invoke(Helper.MantraIndex.HealingMantra);
+            Player.HasHealingMantra = true;
+            await Task.Delay(3000);
+        } 
+        if (Player.HasWeaponsMantra && Player.HasHealingMantra)
+        {
+            HideDirectionArrow.Invoke();
+            this.gameObject.SetActive(false);
+            closePanel();
+        }
+
         printUserMessage();
     }
 
     void OnTriggerExit()
+    {
+        closePanel();
+    }
+
+    private void closePanel()
     {
         interactionPanel.gameObject.SetActive(false);
         userMessage.text = "";

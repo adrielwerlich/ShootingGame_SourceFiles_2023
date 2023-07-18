@@ -5,16 +5,22 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Project/Scenes/Menu.unity
     guid: 2714e128c2a0c7f419fad8431628f85e
-  - enabled: 1
+  - enabled: 0
     path: Assets/Project/Scenes/Level1.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
-  - enabled: 1
+  - enabled: 0
     path: Assets/Project/Scenes/Level2_AnimatedCharacter.unity
     guid: cddc767cc478c3a42b8990c189050931
-  - enabled: 1
+  - enabled: 0
     path: Assets/Project/Scenes/Level3_Monsters.unity
     guid: efcbb04e52eb6694393a576fe4066d2a
+  - enabled: 1
+    path: Assets/Project/Scenes/KrishnaGame/KrishnaGameMainMenu.unity
+    guid: 99d35715799021548bdb010e07853955
+  - enabled: 1
+    path: Assets/Project/Scenes/KrishnaGame/KrishnaGamePrototype.unity
+    guid: 2e1a0f02cae33fd4f8415cae9b011807
   m_configObjects: {}

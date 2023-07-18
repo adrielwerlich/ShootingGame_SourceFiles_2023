@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Xml.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -12,7 +9,6 @@ public class Enemy : MonoBehaviour {
     public bool hidden = false;
 
 	private bool IsGrounded = true;
-	private Vector3 initialPosition;
 
     public virtual string Type { get; set; }
 
@@ -22,7 +18,8 @@ public class Enemy : MonoBehaviour {
 
     private void OnEnable()
     {
-        initialPosition = transform.position;
+		Helper.EnemyCount++;
+		//Debug.Log("enemy counter => " + Helper.EnemyCount);
     }
 
     public virtual void Hit(string type, string origin, int multiplier = 1)
@@ -50,14 +47,21 @@ public class Enemy : MonoBehaviour {
                 InformPlayer?.Invoke(enemyType, experienceGain);
             }
 
+			Helper.EnemyCount--;
+			//Debug.Log("Enemy killed. enemy count decreased => " + Helper.EnemyCount);
+			if (Helper.EnemyCount <= 0)
+			{
+				// show success message
+				
+			}
+
         } else {
 			//EffectManager.Instance.ApplyEffect (transform.position, EffectManager.Instance.hitEffectPrefab);
 		}
 	}
 
 
-
-	public void OnTriggerEnter (Collider otherCollider) {
+    public void OnTriggerEnter (Collider otherCollider) {
 		//Debug.Log("OnTriggerEnter enemy " + otherCollider.name);
 		//Debug.Log("OnTriggerEnter enemy tag" + otherCollider.tag);
 		//if (otherCollider.GetComponent<Arrow> () != null) {

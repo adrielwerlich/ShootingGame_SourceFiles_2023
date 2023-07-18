@@ -10,6 +10,11 @@ public static class Helper
         HealingMantra
     }
     [SerializeField] private static AudioClip[] mantras;
+
+    private static int enemyCount = 0;
+
+    public static int EnemyCount { get => enemyCount; set => enemyCount = value; }
+
     public static float GetDistanceBetweenTwoObjects(Vector3 element1, Vector3 element2)
     {
         return Vector3.Distance(element1, element2);
@@ -29,5 +34,11 @@ public static class Helper
             mantras[1] = Resources.Load<AudioClip>("Audio/HareKrishnaRama");
         }
         return mantras;
+    }
+
+    public static void DumpToConsole(object obj)
+    {
+        var output = JsonUtility.ToJson(obj, true);
+        Debug.Log(output);
     }
 }
