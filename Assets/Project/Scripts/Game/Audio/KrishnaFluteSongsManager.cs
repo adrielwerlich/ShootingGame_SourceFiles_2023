@@ -9,6 +9,8 @@ public class KrishnaFluteSongsManager : MonoBehaviour
     [SerializeField] private float _minVolume = 0.1f;
     [SerializeField] private float _maxVolume = 1f;
 
+    [SerializeField] private ParticleSystem _soundsParticles;
+
     private AudioSource _audioSource;
     private bool shouldPlay = false;
 
@@ -20,32 +22,45 @@ public class KrishnaFluteSongsManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _audioSource = GetComponent<AudioSource>();
-        _audioSource.Stop();
+        if (!Helper.isMobile())
+        {
+            _audioSource = GetComponent<AudioSource>();
+            _audioSource.Stop();
 
-        Player.PlayerInArea += IsTempleArea;
-        KrishnaInteractionManager.PlayMantra += PlayTheMantra;
+            PlayFlute();
+        } else
+        {
+            _soundsParticles.gameObject.SetActive(false);
+        }
+
+        //Player.PlayerInArea += IsTempleArea;
+        //KrishnaInteractionManager.PlayMantra += PlayTheMantra;
     }
 
-    private void PlayTheMantra(Helper.MantraIndex mantraIndex)
-    {
-        _audioSource.Stop();
-        _audioSource.clip = Helper.getMantras()[((int)mantraIndex)];
-        _audioSource.Play();
-    }
+    //private void PlayTheMantra(Helper.MantraIndex mantraIndex)
+    //{
+    //    _audioSource.Stop();
+    //    _audioSource.clip = Helper.getMantras()[((int)mantraIndex)];
+    //    _audioSource.Play();
+    //}
 
     private void IsTempleArea(string area)
     {
         if (area == "KrishnaTemple")
         {
-            PlayerInTemple = shouldPlay = true;
-            GetNextSong();
-        } 
+            PlayFlute();
+        }
         else if (area == "OutsideKrishnaTemple")
         {
             PlayerInTemple = shouldPlay = false;
             _audioSource.Stop();
         }
+    }
+
+    private void PlayFlute()
+    {
+        PlayerInTemple = shouldPlay = true;
+        GetNextSong();
     }
 
     // Update is called once per frame
@@ -71,7 +86,7 @@ public class KrishnaFluteSongsManager : MonoBehaviour
 
     private void GetNextSong()
     {
-        if (!_audioSource.isPlaying && shouldPlay)
+        if (_audioSource != null && !_audioSource.isPlaying && shouldPlay)
         {
             //_audioSource.volume = volume;
             ChangeSong(Random.Range(0, songs.Length));

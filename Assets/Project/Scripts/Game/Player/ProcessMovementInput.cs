@@ -15,6 +15,7 @@ public class ProcessMovementInput : MonoBehaviour
     [SerializeField] private Quaternion targetModelRotation;
     [SerializeField] private bool canJump;
     [SerializeField] private bool justTeleported;
+    [SerializeField] private bool isKrishnaGameForAndroid = false;
     [SerializeField] private InputManager inputManager;
     [SerializeField] private float joystickSmoothTarget = 0.2f;
 
@@ -49,12 +50,16 @@ public class ProcessMovementInput : MonoBehaviour
             originalPlayerAnimatorPosition = playerAnimator.transform.localPosition;
         }
 
-        if (Application.isEditor && Application.isMobilePlatform)
+        //if (Application.isEditor && Application.isMobilePlatform)
+        //{
+        //    Debug.Log("This is running in the mobile simulator");
+        //}
+        if (isKrishnaGameForAndroid)
         {
-            Debug.Log("This is running in the mobile simulator");
+            playerRotatingSpeed = 50f;
+            movingVelocity = 8f;
         }
-
-        if (Application.isMobilePlatform)
+        else if (Application.isMobilePlatform)
         {
             playerRotatingSpeed = 25f;
             movingVelocity = 5;

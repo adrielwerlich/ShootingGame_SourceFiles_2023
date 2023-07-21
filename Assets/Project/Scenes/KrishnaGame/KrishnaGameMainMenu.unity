@@ -318,17 +318,19 @@ MonoBehaviour:
       m_Calls: []
   m_text: '- Use arrow keys to navigate the player
 
-    - Press S to shoot Arrows
+    - Press S to Shoot Arrows
 
     -
-    Press Z to use the Sword
+    Press X to Throw the Bomb
 
-    - Press C to throw the Bomb
+    - Press P to Pause
 
-    - Press T to reload
-    the Level
+    - Press M to Load Menu
 
-    - Press P to pause'
+    -
+    Press R to Reload Level
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

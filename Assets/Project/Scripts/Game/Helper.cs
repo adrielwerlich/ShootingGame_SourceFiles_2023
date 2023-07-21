@@ -41,4 +41,19 @@ public static class Helper
         var output = JsonUtility.ToJson(obj, true);
         Debug.Log(output);
     }
+
+    public static bool IsWebGL()
+    {
+        return Application.platform == RuntimePlatform.WebGLPlayer;
+    }
+
+    public static bool isMobile()
+    {
+        return Application.isMobilePlatform;
+    }
+
+    public static bool isEditor()
+    {
+        return Application.isEditor;
+    }
 }

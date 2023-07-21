@@ -17,13 +17,18 @@ public class LevelManager : MonoBehaviour
     public GameObject CompletedLevelMessage;
     public GameObject PlayerRotationSpeedSlider;
 
+    [SerializeField] private bool _hasNextLevel = true;
+    [SerializeField] private string _mainMenuName = "Menu";
+
+
+
 
 
     void Start()
     {
 
         UpdateCurrentSceneIndex();
-        CompletedLevelMessage.gameObject.SetActive(false);
+        if (CompletedLevelMessage != null) CompletedLevelMessage.gameObject.SetActive(false);
 
         bool shouldDisplay = Application.isMobilePlatform; // if is mobile, should display
         PlayerRotationSpeedSlider.gameObject.SetActive(shouldDisplay);
@@ -65,13 +70,16 @@ public class LevelManager : MonoBehaviour
 
     void Update()
     {
-        // get enemy count
-        int enemyCount = GameObject.FindGameObjectsWithTag("Enemy").Length;
-        if (enemyCount == 0)
+        if (_hasNextLevel)
         {
-            // if enemy count is 0 then load next level
-            CompletedLevelMessage.gameObject.SetActive(true);
-            StartCoroutine(LoadNextLevel());
+            // get enemy count
+            int enemyCount = GameObject.FindGameObjectsWithTag("Enemy").Length;
+            if (enemyCount == 0)
+            {
+                // if enemy count is 0 then load next level
+                CompletedLevelMessage.gameObject.SetActive(true);
+                StartCoroutine(LoadNextLevel());
+            }
         }
 
         CheckKeyPresses();
@@ -110,7 +118,7 @@ public class LevelManager : MonoBehaviour
 
     private void GoToMainMenu()
     {
-        SceneManager.LoadScene("Menu");
+        SceneManager.LoadScene(_mainMenuName);
         ContinueGame();
     }
 

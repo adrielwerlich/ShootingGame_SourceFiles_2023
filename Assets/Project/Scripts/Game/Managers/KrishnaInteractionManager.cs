@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 
@@ -17,6 +16,8 @@ public class KrishnaInteractionManager : MonoBehaviour
 
     private bool _weaponsCreated = false;
     private bool _healingsCreated = false;
+    private bool _chantingMantra =  false;
+    private bool _playerInTemple =  false;
 
     [SerializeField] private GameObject _scrool; 
 
@@ -27,19 +28,15 @@ public class KrishnaInteractionManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //Player.PlayerInArea += IsTempleArea;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        InputManager.FireArrow += PlayWeaponsMantra;
+        InputManager.FireBomb += PlayHealingMantra;
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.name == "Player")
         {
+            Player.inMantraInteraction  = _playerInTemple = true;
             interactionPanel.gameObject.SetActive(true);
 
             if (!Player.HasHealingMantra && !Player.HasWeaponsMantra)
@@ -72,11 +69,20 @@ public class KrishnaInteractionManager : MonoBehaviour
 
     private string getWeaponsLine()
     {
-        return "Press 1 to chant the weapons mantra";
+
+        string weaponsRechargeLine = Application.isMobilePlatform
+            ? "Press the arrow to chant the weapons mantra"
+            : "Press 1 to chant the weapons mantra";
+
+        return weaponsRechargeLine;
     }
     private string getHealersLine()
     {
-        return "Press 2 to chant the healing potions mantra";
+        string healingRechargeLine = Application.isMobilePlatform
+            ? "Press the bomb to chant the healing mantra"
+            : "Press 2 to chant the healing potions mantra";
+
+        return healingRechargeLine;
     }
 
     private void printUserMessage()
@@ -94,35 +100,64 @@ public class KrishnaInteractionManager : MonoBehaviour
             $"\r\n{healingMantra}";
     }
 
-    async void OnTriggerStay()
+    void OnTriggerStay()
     {
-        if (Input.GetKey(KeyCode.Alpha1) && getWeaponsCount() == 0)
+        if (Input.GetKey(KeyCode.Alpha1) && getWeaponsCount() == 0 && !_chantingMantra)
         {
             if (!_weaponsCreated)
             {
-                _weaponsCreated = true;
-                PlayMantra.Invoke(Helper.MantraIndex.WeaponMantra);
-                var prefab = Instantiate(_treasureWeaponsPrefab, _templeTreasures.transform);
-                prefab.tag = "WeaponsPackage";
-                printUserMessage();
-                //userMessage.text = "All the weapons items are now available for recharge";
+                PlayWeaponsMantra();
             }
-            await Task.Delay(3000);
-        } 
-        else if (Input.GetKey(KeyCode.Alpha2) && getHealersCount() == 0)
+            StartCoroutine(setNotChantingMantra());
+
+        }
+        else if (Input.GetKey(KeyCode.Alpha2) && getHealersCount() == 0 && !_chantingMantra)
         {
             if (!_healingsCreated)
             {
-                _healingsCreated = true;
-                PlayMantra.Invoke(Helper.MantraIndex.HealingMantra);
-                var prefab = Instantiate(_treasureHealingPrefab, _templeTreasures.transform);
-                prefab.tag = "HealingPackage";
-                printUserMessage();
-                //userMessage.text = "All the healing items are now available for recharge";
+                PlayHealingMantra();
             }
 
-            await Task.Delay(3000);
+            StartCoroutine(setNotChantingMantra());
         }
+    }
+
+    private void PlayHealingMantra()
+    {
+        if (_playerInTemple)
+        {
+            UpdateStateVariables();
+            PlayMantra.Invoke(Helper.MantraIndex.HealingMantra);
+            var prefab = Instantiate(_treasureHealingPrefab, _templeTreasures.transform);
+            prefab.tag = "HealingPackage";
+            printUserMessage();
+        }
+    }
+
+    private void PlayWeaponsMantra()
+    {
+        if (_playerInTemple)
+        { 
+            UpdateStateVariables();
+            PlayMantra.Invoke(Helper.MantraIndex.WeaponMantra);
+            var prefab = Instantiate(_treasureWeaponsPrefab, _templeTreasures.transform);
+            prefab.tag = "WeaponsPackage";
+            printUserMessage();
+        }
+    }
+
+    private void UpdateStateVariables()
+    {
+        _weaponsCreated = true;
+        _chantingMantra = true;
+    }
+
+    private IEnumerator setNotChantingMantra()
+    {
+        yield return new WaitForSeconds(3.0f);
+
+        _chantingMantra = false;
+
     }
 
     private bool treasureCountIsZero()
@@ -198,5 +233,6 @@ public class KrishnaInteractionManager : MonoBehaviour
     {
         interactionPanel.gameObject.SetActive(false);
         userMessage.text = "";
+        Player.inMantraInteraction = _playerInTemple = false;
     }
 }

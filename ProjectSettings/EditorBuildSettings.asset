@@ -21,6 +21,6 @@ EditorBuildSettings:
     path: Assets/Project/Scenes/KrishnaGame/KrishnaGameMainMenu.unity
     guid: 99d35715799021548bdb010e07853955
   - enabled: 1
-    path: Assets/Project/Scenes/KrishnaGame/KrishnaGamePrototype.unity
-    guid: 2e1a0f02cae33fd4f8415cae9b011807
+    path: Assets/Project/Scenes/KrishnaGame/KrishnaGamePrototype_v3_low_resolution_murti_for_android.unity
+    guid: bd10d46f19c2dee48b5bf396e05ee3cd
   m_configObjects: {}

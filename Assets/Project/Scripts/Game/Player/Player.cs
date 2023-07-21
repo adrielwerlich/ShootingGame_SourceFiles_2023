@@ -16,8 +16,8 @@ public class Player : MonoBehaviour {
 	//public float playerRotatingSpeed;
 
 	[Header("Equipment")]
-	public int health = 5;
-	public Sword sword;
+	//public int health = 5;
+	//public Sword sword;
 	public Bow bow;
 	public GameObject quiver;
 	public int arrows = 15;
@@ -25,6 +25,7 @@ public class Player : MonoBehaviour {
 	public int bombAmount = 5;
 	public float throwingSpeed;
 	public int orbAmount = 0;
+	public static bool inMantraInteraction = false;
 
     [SerializeField] private GameObject simpleLightningPrefab;
     [SerializeField] private GameObject lightningPrefab;
@@ -74,7 +75,7 @@ public class Player : MonoBehaviour {
 		bow.gameObject.SetActive (true);
 		quiver.gameObject.SetActive (true);
 
-		sword.gameObject.SetActive (false);
+		//sword.gameObject.SetActive (false);
         playerRigidbody = GetComponent<Rigidbody>();
 
 
@@ -90,15 +91,18 @@ public class Player : MonoBehaviour {
         _audioSource.Stop();
 
         ScrollInteractionManager.PlayMantra += PlayTheMantra;
-
+		KrishnaInteractionManager.PlayMantra += PlayTheMantra;
 
     }
 
     private void PlayTheMantra(Helper.MantraIndex mantraIndex)
     {
-        _audioSource.Stop();
-        _audioSource.clip = Helper.getMantras()[((int)mantraIndex)];
-        _audioSource.Play();
+		if (inMantraInteraction)
+		{
+			_audioSource.Stop();
+			_audioSource.clip = Helper.getMantras()[((int)mantraIndex)];
+			_audioSource.Play();
+		}
     }
 
     private void OnDisable()
@@ -116,50 +120,10 @@ public class Player : MonoBehaviour {
 
 	}
 
-	
-
-	void ProcessInput () {
-
-		// Check for jumps.
-		//if (canJump && Input.GetKeyDown ("space")) {
-		//	canJump = false;
-		//	playerRigidbody.velocity = new Vector3 (
-		//		playerRigidbody.velocity.x,
-		//		jumpingVelocity,
-		//		playerRigidbody.velocity.z
-		//	);
-		//}
-
-		// Check equipment interaction.
-		//if (Input.GetKeyDown ("z")) {
-		//	sword.gameObject.SetActive (true);
-		//	bow.gameObject.SetActive (false);
-		//	quiver.gameObject.SetActive (false);
-
-		//	sword.Attack ();
-		//}
-
-		//if (Input.GetKeyDown ("s")) {
-		//	if (arrowAmount > 0) {
-		//		sword.gameObject.SetActive (false);
-		//		bow.gameObject.SetActive (true);
-		//		quiver.gameObject.SetActive (true);
-
-		//		bow.Attack ();
-		//		arrowAmount--;
-		//	}
-		//}
-
-		//if (Input.GetKeyDown ("c")) {
-		//	ThrowBomb ();
-		//}
-
-		//if (Keyboard.current.)
-	}
-
     private void FireArrow()
     {
-        if (arrows > 0)
+
+        if (arrows > 0 && !inMantraInteraction)
         {
             //sword.gameObject.SetActive(false);
             //bow.gameObject.SetActive(true);
@@ -216,7 +180,7 @@ public class Player : MonoBehaviour {
     }
 
     private void ThrowBomb () {
-		if (bombAmount <= 0) {
+		if (bombAmount <= 0 || inMantraInteraction) {
 			return;
 		}
 
@@ -278,10 +242,10 @@ public class Player : MonoBehaviour {
 
 
 
-		if (collision.gameObject.name == "KrishnaTempleFLOOR")
-		{
-			PlayerInArea.Invoke("KrishnaTemple");
-		}
+		//if (collision.gameObject.name == "KrishnaTempleFLOOR")
+		//{
+		//	PlayerInArea.Invoke("KrishnaTemple");
+		//}
 
 	}
 

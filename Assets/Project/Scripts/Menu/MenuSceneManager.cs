@@ -17,6 +17,6 @@ public class MenuSceneManager : MonoBehaviour {
 
     public void StartKrishnaGame()
     {
-        SceneManager.LoadScene("KrishnaGamePrototype");
+        SceneManager.LoadScene(1);
     }
 }
