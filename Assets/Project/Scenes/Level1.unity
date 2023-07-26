@@ -1105,10 +1105,10 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 2139769779}
   - {fileID: 1964125801}
   - {fileID: 7117685659252756065}
   - {fileID: 7986145795336242211}
-  - {fileID: 2139769779}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1453,6 +1453,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CompletedLevelMessage: {fileID: 1964125802}
   PlayerRotationSpeedSlider: {fileID: 773920152}
+  _hasNextLevel: 1
+  _mainMenuName: Menu
 --- !u!114 &734815517
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1663,9 +1665,11 @@ MonoBehaviour:
   playerHealth: {fileID: 648315846}
   bombText: {fileID: 1001458488}
   arrowText: {fileID: 1316572066}
+  moneyText: {fileID: 0}
   orbText: {fileID: 0}
   dungeonPanel: {fileID: 0}
   dungeonInfoText: {fileID: 0}
+  _showMoneyText: 0
 --- !u!1 &831477531
 GameObject:
   m_ObjectHideFlags: 0
@@ -3311,7 +3315,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7117685659794745288, guid: 37b302f16bac28b4891662d9efceb66c, type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7117685659794745288, guid: 37b302f16bac28b4891662d9efceb66c, type: 3}
       propertyPath: m_AnchorMax.x
@@ -3626,13 +3630,13 @@ RectTransform:
   - {fileID: 1001458487}
   - {fileID: 1316572065}
   m_Father: {fileID: 656521154}
-  m_RootOrder: 3
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -0.00012207031, y: 0.8401489}
+  m_SizeDelta: {x: -1840, y: 100}
+  m_Pivot: {x: 0.5, y: 5.11}
 --- !u!1001 &3423514524031126572
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3713,6 +3717,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 656521154}
     m_Modifications:
+    - target: {fileID: 205505564640295742, guid: 1809031d346ab264ea1e8247a761f010, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.0001335144
+      objectReference: {fileID: 0}
     - target: {fileID: 3343094250105563899, guid: 1809031d346ab264ea1e8247a761f010, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -3771,7 +3779,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6740381855962253271, guid: 1809031d346ab264ea1e8247a761f010, type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6740381855962253271, guid: 1809031d346ab264ea1e8247a761f010, type: 3}
       propertyPath: m_AnchorMax.x
@@ -3827,11 +3835,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6740381855962253271, guid: 1809031d346ab264ea1e8247a761f010, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 538.17
+      value: 785
       objectReference: {fileID: 0}
     - target: {fileID: 6740381855962253271, guid: 1809031d346ab264ea1e8247a761f010, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 30
+      value: 48
       objectReference: {fileID: 0}
     - target: {fileID: 6740381855962253271, guid: 1809031d346ab264ea1e8247a761f010, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -3973,6 +3981,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7488860657887206170, guid: 2a5fb4615879b4d4e843a524e89a54dc, type: 3}
+      propertyPath: bombPrefab
+      value: 
+      objectReference: {fileID: 1118175021741992, guid: 6262e98f822a0064983c56db8b75c607, type: 3}
     - target: {fileID: 8428773879889960718, guid: 2a5fb4615879b4d4e843a524e89a54dc, type: 3}
       propertyPath: inputManager
       value: 
@@ -3996,7 +4008,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4284769471486972025, guid: 2b136129ca91ea24791f9e2ead2e7445, type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4284769471486972025, guid: 2b136129ca91ea24791f9e2ead2e7445, type: 3}
       propertyPath: m_AnchorMax.x

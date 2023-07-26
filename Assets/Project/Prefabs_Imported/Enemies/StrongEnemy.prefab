@@ -532,6 +532,8 @@ MonoBehaviour:
   ActivateDisabledEnemy:
     m_PersistentCalls:
       m_Calls: []
+  isKrishnaGame: 0
+  goldCoinPF: {fileID: 1950871307682000, guid: 01348926c7cbb3347a006c37204131c3, type: 3}
   enemyAnimator: {fileID: 95229514463480196}
 --- !u!114 &114750919130509900
 MonoBehaviour:

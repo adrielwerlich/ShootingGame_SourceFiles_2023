@@ -1,7 +1,6 @@
 using UnityEngine;
 using TMPro;
 using System;
-using System.Threading.Tasks;
 using System.Collections;
 
 public class ScrollInteractionManager : MonoBehaviour
@@ -24,7 +23,7 @@ public class ScrollInteractionManager : MonoBehaviour
     {
         if (other.name == "Player")
         {
-            Player.inMantraInteraction = true;
+            Player.inAudioInteraction = true;
             interactionPanel.gameObject.SetActive(true);
             printUserMessage();
         }
@@ -119,7 +118,7 @@ public class ScrollInteractionManager : MonoBehaviour
 
     private static void SetPlayerInteractionFalse()
     {
-        Player.inMantraInteraction = false;
+        Player.inAudioInteraction = false;
     }
 
     private void closePanel()

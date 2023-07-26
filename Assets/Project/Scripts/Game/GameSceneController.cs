@@ -14,22 +14,29 @@ public class GameSceneController : MonoBehaviour {
     public Text playerHealth;
     public Text bombText;
 	public Text arrowText;
-	public Text orbText;
+	public Text moneyText;
+    public Text orbText;
 	public GameObject dungeonPanel;
 	public Text dungeonInfoText;
 
-	//private float resetTimer = 3f;
+	[SerializeField] private bool _showMoneyText = false;
 
 	// Use this for initialization
 	void Start () {
-		
+		if (moneyText != null) { 
+			moneyText.gameObject.SetActive(_showMoneyText);
+		}
 	}
 
-	void SetValues(int health, int bombs, int arrows)
+	void SetValues(int health, int bombs, int arrows, int money = 0)
 	{
         playerHealth.text = "Health: " + health;
         bombText.text = "Bombs: " + bombs;
         arrowText.text = "Arrows: " + arrows;
+		if (moneyText != null )
+		{
+            moneyText.text = "Money: " + money;
+        }
     }
 	
 	// Update is called once per frame
@@ -48,10 +55,16 @@ public class GameSceneController : MonoBehaviour {
 			//for (int i = 0; i < hearts.Length; i++) {
 			//	hearts [i].SetActive (i < player.health);
 			//}
+			int money = 0;
+			if (Player.money != null)
+			{
+				money = Player.money.Amount;
+			}
 			SetValues(
                 player.GetComponent<Health>().HealthValue,
 				player.bombAmount,
-				player.arrows
+				player.arrows,
+				money
             );
 			//playerHealth.text = "Health: " + player.health;
    //         bombText.text = "Bombs: " + player.bombAmount;

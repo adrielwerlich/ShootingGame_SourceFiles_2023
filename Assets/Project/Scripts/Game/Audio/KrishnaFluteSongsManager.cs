@@ -22,16 +22,17 @@ public class KrishnaFluteSongsManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (!Helper.isMobile())
+        if (Helper.isMobile())
         {
+            //_soundsParticles.gameObject.SetActive(false);
+        } 
+        else
+        {
+        }
             _audioSource = GetComponent<AudioSource>();
             _audioSource.Stop();
 
             PlayFlute();
-        } else
-        {
-            _soundsParticles.gameObject.SetActive(false);
-        }
 
         //Player.PlayerInArea += IsTempleArea;
         //KrishnaInteractionManager.PlayMantra += PlayTheMantra;

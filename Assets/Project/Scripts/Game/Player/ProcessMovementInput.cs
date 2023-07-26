@@ -50,11 +50,7 @@ public class ProcessMovementInput : MonoBehaviour
             originalPlayerAnimatorPosition = playerAnimator.transform.localPosition;
         }
 
-        //if (Application.isEditor && Application.isMobilePlatform)
-        //{
-        //    Debug.Log("This is running in the mobile simulator");
-        //}
-        if (isKrishnaGameForAndroid)
+        if (isKrishnaGameForAndroid && !Helper.isEditor())
         {
             playerRotatingSpeed = 50f;
             movingVelocity = 8f;

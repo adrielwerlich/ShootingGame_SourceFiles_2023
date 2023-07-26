@@ -9,7 +9,14 @@ public static class Helper
         WeaponMantra,
         HealingMantra
     }
+    public enum BuyLineIndex
+    {
+        WeaponLine,
+        HealingLine
+    }
+
     [SerializeField] private static AudioClip[] mantras;
+    [SerializeField] private static AudioClip[] buyLines;
 
     private static int enemyCount = 0;
 
@@ -35,7 +42,17 @@ public static class Helper
         }
         return mantras;
     }
-
+    public static AudioClip[] getBuyLines()
+    {
+        if (buyLines == null)
+        {
+            buyLines = new AudioClip[2];
+            buyLines[0] = Resources.Load<AudioClip>("Audio/BuyWeaponsLine");
+            buyLines[1] = Resources.Load<AudioClip>("Audio/BuyHealingsLine");
+        }
+        return buyLines;
+    }
+    
     public static void DumpToConsole(object obj)
     {
         var output = JsonUtility.ToJson(obj, true);

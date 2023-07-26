@@ -20,9 +20,11 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private bool _hasNextLevel = true;
     [SerializeField] private string _mainMenuName = "Menu";
 
-
-
-
+    private string MainMenuName { get {
+            if (string.IsNullOrEmpty(_mainMenuName)) return "Menu";
+            return _mainMenuName;
+     } 
+        set => _mainMenuName = value; }
 
     void Start()
     {
@@ -118,7 +120,7 @@ public class LevelManager : MonoBehaviour
 
     private void GoToMainMenu()
     {
-        SceneManager.LoadScene(_mainMenuName);
+        SceneManager.LoadScene(MainMenuName);
         ContinueGame();
     }
 

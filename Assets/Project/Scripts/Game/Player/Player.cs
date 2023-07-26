@@ -13,7 +13,7 @@ public class Player : MonoBehaviour {
 	[SerializeField] private float movingVelocity;
 	[SerializeField] private float jumpingVelocity;
 	[SerializeField] private float knockbackForce;
-	//public float playerRotatingSpeed;
+
 
 	[Header("Equipment")]
 	//public int health = 5;
@@ -25,15 +25,17 @@ public class Player : MonoBehaviour {
 	public int bombAmount = 5;
 	public float throwingSpeed;
 	public int orbAmount = 0;
-	public static bool inMantraInteraction = false;
+	public static bool inAudioInteraction = false;
 
     [SerializeField] private GameObject simpleLightningPrefab;
     [SerializeField] private GameObject lightningPrefab;
     [SerializeField] private int energyLevel = 500;
 
     public int experience = 0;
+    public static PlayerMoney money;
 
-	private Rigidbody playerRigidbody;
+
+    private Rigidbody playerRigidbody;
 	private bool canJump;
 	private Quaternion targetModelRotation;
 	private float knockbackTimer;
@@ -71,7 +73,12 @@ public class Player : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        money = this.gameObject.GetComponent<PlayerMoney>();
 
+		if (money != null )
+		{
+	        money.Amount = 0;
+		}
 		bow.gameObject.SetActive (true);
 		quiver.gameObject.SetActive (true);
 
@@ -88,21 +95,35 @@ public class Player : MonoBehaviour {
 		playerHealth = GetComponent<Health>();
 
         _audioSource = GetComponent<AudioSource>();
-        _audioSource.Stop();
+		if ( _audioSource != null )
+		{
+	        _audioSource.Stop();
+		}
 
         ScrollInteractionManager.PlayMantra += PlayTheMantra;
 		KrishnaInteractionManager.PlayMantra += PlayTheMantra;
+		BuyMachineInteractionManager.PlayBuyLine += PlayBuyLine;
 
+    }
+
+    private void PlayBuyLine(Helper.BuyLineIndex lineIndex)
+    {
+        PlayClip(Helper.getBuyLines()[((int)lineIndex)]);
     }
 
     private void PlayTheMantra(Helper.MantraIndex mantraIndex)
     {
-		if (inMantraInteraction)
-		{
-			_audioSource.Stop();
-			_audioSource.clip = Helper.getMantras()[((int)mantraIndex)];
-			_audioSource.Play();
-		}
+        PlayClip(Helper.getMantras()[((int)mantraIndex)]);
+    }
+
+    private void PlayClip(AudioClip clip)
+    {
+        if (inAudioInteraction)
+        {
+            _audioSource.Stop();
+            _audioSource.clip = clip;
+            _audioSource.Play();
+        }
     }
 
     private void OnDisable()
@@ -111,6 +132,8 @@ public class Player : MonoBehaviour {
         InputManager.FireBomb -= ThrowBomb;
         InputManager.FireLightning -= FireLightning;
         ScrollInteractionManager.PlayMantra -= PlayTheMantra;
+        KrishnaInteractionManager.PlayMantra -= PlayTheMantra;
+        BuyMachineInteractionManager.PlayBuyLine -= PlayBuyLine;
 
     }
 
@@ -123,7 +146,7 @@ public class Player : MonoBehaviour {
     private void FireArrow()
     {
 
-        if (arrows > 0 && !inMantraInteraction)
+        if (arrows > 0 && !inAudioInteraction)
         {
             //sword.gameObject.SetActive(false);
             //bow.gameObject.SetActive(true);
@@ -180,7 +203,7 @@ public class Player : MonoBehaviour {
     }
 
     private void ThrowBomb () {
-		if (bombAmount <= 0 || inMantraInteraction) {
+		if (bombAmount <= 0 || inAudioInteraction) {
 			return;
 		}
 
@@ -215,6 +238,12 @@ public class Player : MonoBehaviour {
 		else if (otherCollider.gameObject.name == "OutsideKrishnaTemple")
         {
             PlayerInArea.Invoke("OutsideKrishnaTemple");
+        }
+        else if (otherCollider.tag == "GoldCoins")
+        {
+            money.Amount += 20;
+			CreateCoins.playCoinSound();
+            Destroy(otherCollider.gameObject);
         }
     }
 
@@ -274,7 +303,7 @@ public class Player : MonoBehaviour {
 
     private void OnEnemyKilledIncreaseExperience(string type, int experienceGain)
     {
-        Debug.Log("player event enemy killed. Type is => " + type);
+        //Debug.Log("player event enemy killed. Type is => " + type);
 		if (type == "simple")
 		{
 			experience += 1 + experienceGain;

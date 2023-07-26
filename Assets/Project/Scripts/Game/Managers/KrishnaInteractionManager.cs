@@ -32,11 +32,17 @@ public class KrishnaInteractionManager : MonoBehaviour
         InputManager.FireBomb += PlayHealingMantra;
     }
 
+    private void OnDestroy()
+    {
+        InputManager.FireArrow -= PlayWeaponsMantra;
+        InputManager.FireBomb -= PlayHealingMantra;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.name == "Player")
         {
-            Player.inMantraInteraction  = _playerInTemple = true;
+            Player.inAudioInteraction  = _playerInTemple = true;
             interactionPanel.gameObject.SetActive(true);
 
             if (!Player.HasHealingMantra && !Player.HasWeaponsMantra)
@@ -233,6 +239,6 @@ public class KrishnaInteractionManager : MonoBehaviour
     {
         interactionPanel.gameObject.SetActive(false);
         userMessage.text = "";
-        Player.inMantraInteraction = _playerInTemple = false;
+        Player.inAudioInteraction = _playerInTemple = false;
     }
 }

@@ -1891,6 +1891,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 1
+  hidden: 0
+  ActivateDisabledEnemy:
+    m_PersistentCalls:
+      m_Calls: []
+  isKrishnaGame: 0
+  goldCoinPF: {fileID: 1950871307682000, guid: 01348926c7cbb3347a006c37204131c3, type: 3}
 --- !u!1 &1952904704395230
 GameObject:
   m_ObjectHideFlags: 0

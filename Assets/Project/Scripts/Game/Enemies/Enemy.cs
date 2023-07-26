@@ -13,12 +13,19 @@ public class Enemy : MonoBehaviour {
     public virtual string Type { get; set; }
 
 	public static event Action<string, int> InformPlayer;
+	public static event Action<Transform> EnemyKilled;
 
 	public UnityEvent<bool> ActivateDisabledEnemy;
 
+	//[SerializeField] private bool isKrishnaGame = false;
+
     private void OnEnable()
     {
-		Helper.EnemyCount++;
+		if (this.gameObject != null && this.gameObject.activeSelf)
+		{
+			Helper.EnemyCount++;
+			gameObject.tag = "Enemy";
+		}
 		//Debug.Log("enemy counter => " + Helper.EnemyCount);
     }
 
@@ -35,17 +42,26 @@ public class Enemy : MonoBehaviour {
 		if (health <= 0) {
 			//EffectManager.Instance.ApplyEffect (transform.position, EffectManager.Instance.killEffectPrefab);
 			//Debug.Log("destroy enemy type " + type);
+			if (EnemyKilled != null)
+			{
+				EnemyKilled.Invoke(this.transform);
+			}
 
 			Destroy (gameObject);
 			ActivateDisabledEnemy.Invoke(true);
 
+			string enemyType = null;
+			int experienceGain = 0;
             if (type == "simple")
 			{
-				string enemyType = "simple";
-				int experienceGain = origin == "arrow" ? 2 : 1;
-
-                InformPlayer?.Invoke(enemyType, experienceGain);
+				enemyType = "simple";
+				experienceGain = origin == "arrow" ? 2 : 1;
             }
+
+			if (enemyType != null && experienceGain > 0 && InformPlayer != null)
+			{
+				InformPlayer?.Invoke(enemyType, experienceGain);
+			}
 
 			Helper.EnemyCount--;
 			//Debug.Log("Enemy killed. enemy count decreased => " + Helper.EnemyCount);
